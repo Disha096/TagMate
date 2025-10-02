@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login - TagMate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="staff-login-container">
+        <div class="staff-login-box">
+            <h1>Staff Login</h1>
+            <div class="form-group">
+                <label for="staffId">Staff ID</label>
+                <input type="text" id="staffId" placeholder="Enter staff ID">
+            </div>
+            <div class="form-group">
+                <label for="staffPassword">Password</label>
+                <input type="password" id="staffPassword" placeholder="Enter password">
+            </div>
+            <button class="btn btn-staff" id="loginStaffBtn">Login</button>
+            <a href="selection.html" class="back-link">← Back to selection</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginStaffBtn').addEventListener('click', () => {
+            const staffId = document.getElementById('staffId').value;
+            if (!staffId) { alert('Enter staff ID'); return; }
+            localStorage.setItem('currentUser', JSON.stringify({ type: 'staff', name: staffId }));
+            window.location.href = 'staffDashboard.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Dashboard - TagMate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app active">
+        <div class="navbar">
+            <h1>TagMate</h1>
+            <div class="user-info">
+                <span id="passengerName"></span>
+                <button class="btn-logout" id="logoutPassenger">Logout</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="bag-grid" id="passengerBags"></div>
+        </div>
+    </div>
+
+    <script>
+        const bags = [
+            { id: "BG101", status: "Checked-in", location: "Airport A" },
+            { id: "BG102", status: "Loaded", location: "Flight 101" },
+            { id: "BG103", status: "In-Transit", location: "Transit Hub" }
+        ];
+
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user || user.type !== 'passenger') { window.location.href = 'selection.html'; }
+        document.getElementById('passengerName').textContent = user.name;
+
+        function renderPassengerBags() {
+            const container = document.getElementById('passengerBags');
+            container.innerHTML = '';
+            bags.forEach(b => {
+                const div = document.createElement('div');
+                div.className = 'bag-card';
+                div.innerHTML = `<div class="bag-card-header">
+            <span class="bag-id">${b.id}</span>
+            <span class="status-badge status-${b.status.toLowerCase().replace(/\s/g, '-')}">${b.status}</span>
+        </div><div class="bag-info"><p><strong>Location:</strong> ${b.location}</p></div>`;
+                container.appendChild(div);
+            });
+        }
+        renderPassengerBags();
+
+        document.getElementById('logoutPassenger').addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'selection.html';
+        });
+    </script>
+</body>
+
+</html>

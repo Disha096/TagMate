@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagMate - Selection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="selection-container">
+        <div class="selection-box">
+            <h1><i class="fas fa-suitcase"></i> TagMate</h1>
+            <p>Advanced Baggage Tracking System</p>
+            <div class="user-type-cards">
+                <div class="user-type-card passenger" id="passengerCard">
+                    <i class="fas fa-user"></i>
+                    <h3>Passenger</h3>
+                    <p>Track your baggage in real-time</p>
+                </div>
+                <div class="user-type-card staff" id="staffCard">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>Staff</h3>
+                    <p>Manage baggage operations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('passengerCard').addEventListener('click', () => {
+            window.location.href = 'passengerLogin.html';
+        });
+        document.getElementById('staffCard').addEventListener('click', () => {
+            window.location.href = 'staffLogin.html';
+        });
+    </script>
+</body>
+
+</html>
