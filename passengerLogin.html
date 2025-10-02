@@ -12,27 +12,21 @@
     <div class="passenger-login-container">
         <div class="passenger-login-box">
             <h1>Passenger Login</h1>
-            <div class="form-group">
-                <label for="passengerEmail">Email</label>
-                <input type="email" id="passengerEmail" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="passengerPassword">Password</label>
-                <input type="password" id="passengerPassword" placeholder="Enter password">
-            </div>
-            <button class="btn" id="loginPassengerBtn">Login</button>
+            <form action="passenger_login.php" method="POST">
+                <div class="form-group">
+                    <label for="passengerEmail">Email</label>
+                    <input type="email" id="passengerEmail" name="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="passengerPassword">Password</label>
+                    <input type="password" id="passengerPassword" name="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p>Not registered? <a href="register.html">Create an account</a></p>
             <a href="selection.html" class="back-link">← Back to selection</a>
         </div>
     </div>
-
-    <script>
-        document.getElementById('loginPassengerBtn').addEventListener('click', () => {
-            const email = document.getElementById('passengerEmail').value;
-            if (!email) { alert('Enter email'); return; }
-            localStorage.setItem('currentUser', JSON.stringify({ type: 'passenger', name: email.split('@')[0] }));
-            window.location.href = 'passengerDashboard.html';
-        });
-    </script>
 </body>
 
 </html>
