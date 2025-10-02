@@ -397,7 +397,7 @@ if (!isset($_SESSION['staff_id'])) {
                 <div class="logo">🏷️ Tag Mate</div>
                 <div class="nav-links">
                     <span id="staffName" >Staff: <?php echo htmlspecialchars($_SESSION['staff_name']); ?></span>
-                    <a href="logout.php" class="btn-logout">Logout</a>
+                    <a href="selection.html" class="btn-logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -515,7 +515,7 @@ if (!isset($_SESSION['staff_id'])) {
 
 
             <div class="tab-content" id="track">
-                <h2>Track Baggage</h2>
+                <!-- <h2>Track Baggage</h2> -->
                 <div class="bag-table" id="staffBagTable"></div>
             </div>
         </div>
@@ -555,7 +555,7 @@ function renderStaffTable() {
                     <td>${b.status}</td>
                     <td>${b.location}</td>
                     <td>
-                        <button class="btn-preview" data-id="${b.id}">Preview</button>
+                         <button class="btn-preview" data-id="${b.id}">Preview</button>
                         <button class="btn-delete" data-id="${b.id}">Delete</button>
                     </td>
                 </tr>`).join('')}
@@ -610,7 +610,7 @@ function fetchBags() {
 // Render Table
 function renderStaffTable() {
     const container = document.getElementById('staffBagTable');
-    container.innerHTML = `<h2>Registered Baggage</h2>
+    container.innerHTML = `<h2>Track the Baggage</h2>
         <table>
             <thead>
                 <tr><th>ID</th><th>Flight</th><th>Status</th><th>Location</th><th>Actions</th></tr>
