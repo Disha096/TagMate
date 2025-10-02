@@ -479,9 +479,40 @@ if (!isset($_SESSION['staff_id'])) {
             </div>
 
             <div class="tab-content" id="update">
-                <h2>Update Baggage</h2>
-                <p>Feature to update baggage status/location will go here.</p>
-            </div>
+            <h2>Update Baggage</h2>
+            <form id="updateForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Select Baggage</label>
+                        <select id="updateBagSelect" required>
+                            <option value="">-- Select a Bag --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="updateStatus" required>
+                            <option>Registered</option>
+                            <option>Checked-in</option>
+                            <option>Loaded</option>
+                            <option>In-Transit</option>
+                            <option>Delivered</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="updateLocation" placeholder="Enter current location" required>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="updateBaggage()">
+                    <i class="fas fa-edit"></i> Update Baggage
+                </button>
+            </form>
+        </div>
+
 
             <div class="tab-content" id="track">
                 <h2>Track Baggage</h2>
@@ -563,5 +594,153 @@ function registerBaggage() {
     document.getElementById('baggageForm').reset();
 }
 </script>
+
+<script>
+    // Fetch bags from DB and render
+function fetchBags() {
+    fetch('get_baggage.php')
+        .then(res => res.json())
+        .then(data => {
+            bags = data;
+            renderStaffTable();
+            populateUpdateDropdown();
+        });
+}
+
+// Render Table
+function renderStaffTable() {
+    const container = document.getElementById('staffBagTable');
+    container.innerHTML = `<h2>Registered Baggage</h2>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Flight</th><th>Status</th><th>Location</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                ${bags.map(b => `<tr>
+                    <td>${b.bag_id}</td>
+                    <td>${b.flight_number}</td>
+                    <td>${b.status}</td>
+                    <td>${b.location}</td>
+                    <td>
+                        <button class="btn-preview" data-id="${b.bag_id}">Preview</button>
+                        <button class="btn-delete" data-id="${b.bag_id}">Delete</button>
+                    </td>
+                </tr>`).join('')}
+            </tbody>
+        </table>`;
+
+    container.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const id = e.target.dataset.id;
+            if(confirm("Delete this baggage?")){
+                fetch(`delete_baggage.php?bag_id=${id}`)
+                    .then(()=>fetchBags());
+            }
+        });
+    });
+
+    container.querySelectorAll('.btn-preview').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const b = bags.find(b => b.bag_id === e.target.dataset.id);
+            alert(`Preview:\nID: ${b.bag_id}\nFlight: ${b.flight_number}\nStatus: ${b.status}\nLocation: ${b.location}`);
+        });
+    });
+}
+
+// Register baggage
+function registerBaggage() {
+    const data = {
+        flight_number: document.getElementById('flightNumber').value,
+        departure_date: document.getElementById('departureDate').value,
+        from_airport: document.getElementById('fromAirport').value,
+        to_airport: document.getElementById('toAirport').value,
+        baggage_type: document.getElementById('baggageType').value,
+        weight: document.getElementById('baggageWeight').value,
+        description: document.getElementById('baggageDesc').value
+    };
+
+    fetch('register_baggage.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(resp => {
+        if(resp.status === "success"){
+            alert("Registered with ID: " + resp.bag_id);
+            document.getElementById('baggageForm').reset();
+            fetchBags();
+        } else {
+            alert("Error: " + resp.msg);
+        }
+    });
+}
+
+// Initial fetch
+fetchBags();
+
+</script>
+<script>
+    // Populate the Update dropdown whenever bags change
+function populateUpdateDropdown() {
+    const select = document.getElementById('updateBagSelect');
+    select.innerHTML = `<option value="">-- Select a Bag --</option>`;
+    bags.forEach(b => {
+        select.innerHTML += `<option value="${b.bag_id}">${b.bag_id} - ${b.flight_number}</option>`;
+    });
+}
+
+// Call after fetching bags
+// function fetchBags() {
+//     fetch('get_baggage.php')
+//         .then(res => res.json())
+//         .then(data => {
+//             bags = data;
+//             renderStaffTable();
+//             populateUpdateDropdown();
+//         });
+// }
+
+// When a bag is selected, fill current status/location
+document.getElementById('updateBagSelect').addEventListener('change', e => {
+    const bag = bags.find(b => b.bag_id === e.target.value);
+    if(bag){
+        document.getElementById('updateStatus').value = bag.status;
+        document.getElementById('updateLocation').value = bag.location || bag.from_airport;
+    } else {
+        document.getElementById('updateStatus').value = 'Registered';
+        document.getElementById('updateLocation').value = '';
+    }
+});
+
+// Update baggage
+function updateBaggage() {
+    const bag_id = document.getElementById('updateBagSelect').value;
+    const status = document.getElementById('updateStatus').value;
+    const location = document.getElementById('updateLocation').value;
+
+    if(!bag_id){
+        alert("Please select a bag!");
+        return;
+    }
+
+    fetch('update_baggage.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ bag_id, status, location })
+    })
+    .then(res => res.json())
+    .then(resp => {
+        if(resp.status === "success"){
+            alert("Baggage updated successfully!");
+            fetchBags(); // refresh table & dropdown
+        } else {
+            alert("Error: " + resp.msg);
+        }
+    });
+}
+
+</script>
+
 </body>
 </html>
