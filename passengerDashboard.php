@@ -192,7 +192,9 @@ table th {
     padding: 1rem;
     background: #f8f9ff;
     border-radius: 15px;
-} */
+} 
+
+
 </style>
 
 <style>
@@ -314,7 +316,7 @@ th {
         <div class="logo">🏷️ Tag Mate</div>
         <div class="nav-links">
             <span>Passenger: <?php echo htmlspecialchars($_SESSION['passenger_name']); ?></span>
-            <a href="passenger_logout.php">Logout</a>
+            <a href="selection.html">Logout</a>
         </div>
     </div>
 </div>
