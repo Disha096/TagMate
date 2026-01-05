@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TagMate | Flight Booking</title>
+    <link rel="stylesheet" href="bookingStyle.css">
+</head>
+
+<body>
+
+    <!-- TOP NAV -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <span class="brand">tag<span>mate</span></span>
+        </div>
+        <div class="nav-right">
+            <button class="login-btn">Login or Create Account</button>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <section class="main">
+
+        <!-- SERVICES -->
+        <div class="services">
+            <div class="service active">✈ Flights</div>
+        </div>
+
+        <!-- BOOKING CARD -->
+        <div class="booking-card">
+
+            <!-- TRIP TYPE -->
+            <div class="trip-options">
+                <label><input type="radio" checked> One Way</label>
+                <label><input type="radio"> Round Trip</label>
+                <label><input type="radio"> Multi City</label>
+            </div>
+
+            <!-- GRID -->
+            <div class="grid">
+
+                <div class="field" onclick="openAirport('from')">
+                    <span>FROM</span>
+                    <h1 id="fromCity">Delhi</h1>
+                    <p id="fromCode">DEL, Delhi Airport India</p>
+                </div>
+
+
+                <div class="swap">⇄</div>
+
+                <div class="field" onclick="openAirport('to')">
+                    <span>TO</span>
+                    <h1 id="toCity">Bengaluru</h1>
+                    <p id="toCode">BLR, Bengaluru Intl Airport</p>
+                </div>
+
+
+                <div class="field" onclick="toggleCalendar()">
+                    <span>DEPARTURE</span>
+                    <h1 id="depDate">6 Jan'26</h1>
+                    <p id="depDay">Tuesday</p>
+                </div>
+
+
+                <div class="field muted">
+                    <span>RETURN</span>
+                    <p>Tap to add a return</p>
+                </div>
+
+                <!-- TRAVELLERS FIELD -->
+                <div class="field" id="travellerField" onclick="toggleTravellerPopup()">
+                    <span>TRAVELLERS & CLASS</span>
+                    <h1 id="travellerText">1 Traveller</h1>
+                    <p id="classText">Economy</p>
+                </div>
+
+            </div>
+
+            <button class="search-btn">SEARCH</button>
+
+        </div>
+    </section>
+
+    <!-- TRAVELLER POPUP (OUTSIDE GRID) -->
+    <div class="traveller-popup" id="travellerPopup">
+
+        <div class="row">
+            <h4>ADULTS (12y +)</h4>
+            <div class="counter">
+                <button onclick="setCount('adult',1)">1</button>
+                <button onclick="setCount('adult',2)">2</button>
+                <button onclick="setCount('adult',3)">3</button>
+                <button onclick="setCount('adult',4)">4</button>
+                <button onclick="setCount('adult',5)">5</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4>CHILDREN (2y - 12y)</h4>
+            <div class="counter">
+                <button onclick="setCount('child',0)" class="active">0</button>
+                <button onclick="setCount('child',1)">1</button>
+                <button onclick="setCount('child',2)">2</button>
+                <button onclick="setCount('child',3)">3</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4>INFANTS (below 2y)</h4>
+            <div class="counter">
+                <button onclick="setCount('infant',0)" class="active">0</button>
+                <button onclick="setCount('infant',1)">1</button>
+                <button onclick="setCount('infant',2)">2</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4>CHOOSE TRAVEL CLASS</h4>
+            <div class="class-options">
+                <button onclick="setClass(this)" class="active">Economy</button>
+                <button onclick="setClass(this)">Premium Economy</button>
+                <button onclick="setClass(this)">Business</button>
+                <button onclick="setClass(this)">First Class</button>
+            </div>
+        </div>
+
+        <button class="apply-btn" onclick="applyTraveller()">APPLY</button>
+    </div>
+
+    <div class="calendar-popup" id="calendarPopup">
+        <input type="date" id="dateInput" onchange="setDate(this.value)">
+    </div>
+
+    <div class="airport-popup" id="airportPopup">
+        <h4>Select Airport</h4>
+        <ul>
+            <li onclick="selectAirport('DEL','Delhi','Delhi Airport India')">Delhi (DEL)</li>
+            <li onclick="selectAirport('BOM','Mumbai','Chhatrapati Shivaji Intl')">Mumbai (BOM)</li>
+            <li onclick="selectAirport('HYD','Hyderabad','Rajiv Gandhi Intl')">Hyderabad (HYD)</li>
+            <li onclick="selectAirport('BLR','Bengaluru','Kempegowda Intl')">Bengaluru (BLR)</li>
+            <li onclick="selectAirport('CCU','Kolkata','Netaji Subhash Chandra Bose')">Kolkata (CCU)</li>
+        </ul>
+    </div>
+
+
+
+    <script src="bookingScript.js"></script>
+</body>
+
+</html>

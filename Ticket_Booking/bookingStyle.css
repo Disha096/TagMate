@@ -1,0 +1,329 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #e7edf4;
+}
+
+/* NAVBAR */
+.top-nav {
+    background: #0b2239;
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    font-size: 22px;
+    color: white;
+    font-weight: bold;
+}
+
+.brand span {
+    color: #ff3d00;
+}
+
+.login-btn {
+    background: #008cff;
+    border: none;
+    padding: 8px 14px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* MAIN */
+.main {
+    width: 90%;
+    margin: auto;
+}
+
+/* SERVICES */
+.services {
+    display: flex;
+    gap: 28px;
+    background: white;
+    margin-top: 20px;
+    padding: 14px 22px;
+    border-radius: 12px;
+}
+
+.service {
+    color: #666;
+    cursor: pointer;
+}
+
+.service.active {
+    color: #008cff;
+    font-weight: bold;
+}
+
+/* BOOKING CARD */
+.booking-card {
+    background: white;
+    margin-top: 12px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.trip-options {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.3fr 1.3fr 1fr 1fr 1.2fr;
+    gap: 10px;
+}
+
+.field {
+    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 8px;
+}
+
+.field span {
+    font-size: 11px;
+    color: #777;
+}
+
+.field h1 {
+    font-size: 26px;
+    margin-top: 4px;
+}
+
+.field p {
+    font-size: 12px;
+    color: #777;
+}
+
+.muted {
+    background: #f3f5f8;
+}
+
+.swap {
+    text-align: center;
+    font-size: 24px;
+    align-self: center;
+    color: #777;
+}
+
+/* SEARCH */
+.search-btn {
+    display: block;
+    margin: 24px auto 0;
+    width: 240px;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(to right, #008cff, #00b2ff);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* RESULTS */
+.results {
+    display: none;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.flight-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flight-card button {
+    background: #ff6f00;
+    border: none;
+    padding: 8px 14px;
+    color: white;
+    border-radius: 6px;
+}
+
+/* PAYMENT */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.payment-box {
+    background: white;
+    width: 300px;
+    padding: 22px;
+    margin: 15% auto;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.payment-box button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    background: #008cff;
+    color: white;
+}
+
+/* ===== TRAVELLER POPUP (MMT STYLE) ===== */
+.traveller-popup {
+    position: absolute;
+    top: 230px;
+    left: 82%;
+    transform: translateX(-50%);
+    width: 520px;
+    background: #fff;
+    padding: 20px 22px;
+    border-radius: 12px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    display: none;
+    z-index: 9999;
+}
+
+/* Section spacing */
+.traveller-popup .row {
+    margin-bottom: 18px;
+}
+
+/* Headings */
+.traveller-popup h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Counter buttons */
+.counter {
+    display: flex;
+    gap: 8px;
+}
+
+.counter button {
+    min-width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    color: #333;
+}
+
+.counter button.active {
+    background: #008cff;
+    color: #fff;
+    border-color: #008cff;
+}
+
+/* Travel class buttons */
+.class-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.class-options button {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #dcdcdc;
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    color: #333;
+}
+
+.class-options button.active {
+    background: #008cff;
+    color: #fff;
+    border-color: #008cff;
+}
+
+/* Apply button */
+.apply-btn {
+    float: right;
+    margin-top: 10px;
+    background: #008cff;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Calendar Pop-up */
+
+.calendar-popup {
+    position: absolute;
+    top: 230px;
+    left: 54%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    display: none;
+    z-index: 9999;
+}
+
+.calendar-popup input {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/*Airport Location */
+
+.airport-popup {
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    display: none;
+    z-index: 9999;
+}
+
+.airport-popup h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.airport-popup ul {
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.airport-popup li {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.airport-popup li:hover {
+    background: #f2f6ff;
+}

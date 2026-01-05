@@ -5,7 +5,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passenger Registration - TagMate</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        /* ====== Global Styles ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4c7df0, #6ad1e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* ====== Container Styles ====== */
+        .passenger-login-container,
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* ====== Box Styles ====== */
+        .passenger-login-box,
+        .register-box {
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* ====== Heading ====== */
+        h1 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        /* ====== Form Styles ====== */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #444;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #4c7df0;
+            outline: none;
+        }
+
+        /* ====== Button ====== */
+        .btn {
+            width: 100%;
+            background: #4c7df0;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: #3a66cc;
+            transform: scale(1.03);
+        }
+
+        /* ====== Links and Text ====== */
+        p {
+            margin-top: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        a {
+            color: #4c7df0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ====== Back Link (for Login Page) ====== */
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4c7df0;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #3a66cc;
+            transform: translateX(-3px);
+        }
+
+        /* ====== Animation ====== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 480px) {
+
+            .passenger-login-box,
+            .register-box {
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
 
 <body>

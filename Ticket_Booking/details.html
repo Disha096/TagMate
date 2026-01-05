@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger Details</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>TagMate</h2>
+    </header>
+
+    <section class="container">
+        <h1>Passenger Information</h1>
+
+        <div class="form-box">
+            <input placeholder="Full Name">
+            <input placeholder="Email">
+            <input placeholder="Mobile">
+            <button onclick="openPayment()">Proceed to Payment</button>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h2>Select Payment Method</h2>
+
+            <button onclick="payCounter()">Pay at Counter</button>
+            <button onclick="payOnline()">Online Payment</button>
+
+            <div id="loader" class="loader hidden"></div>
+
+            <span class="close" onclick="closePayment()">×</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

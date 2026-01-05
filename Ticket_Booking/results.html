@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flight Results</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>TagMate</h2>
+    </header>
+
+    <section class="container">
+        <h1>Flights from Mumbai to Hyderabad</h1>
+
+        <div class="flight-card">
+            <div>
+                <h3>IndiGo</h3>
+                <p>09:05 → 10:20</p>
+            </div>
+            <div>
+                <h3>₹ 4,000</h3>
+                <button onclick="openFare()">BOOK NOW</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fare Modal -->
+    <div id="fareModal" class="modal">
+        <div class="modal-content">
+            <h2>Select Fare</h2>
+
+            <div class="fare-box">
+                <h3>SAVER</h3>
+                <p>₹ 4,000</p>
+                <button onclick="goDetails()">CONTINUE</button>
+            </div>
+
+            <div class="fare-box popular">
+                <h3>FLEXI PLUS</h3>
+                <p>₹ 4,210</p>
+                <button onclick="goDetails()">CONTINUE</button>
+            </div>
+
+            <span class="close" onclick="closeFare()">×</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
