@@ -59,3 +59,27 @@ TagMate is an innovative solution designed to tackle baggage loss and misplaceme
 
 - Notifications keep passengers informed about their baggage status.
 
+## Importing Database (tagmate.sql) into XAMPP
+
+1. Make sure **XAMPP** is running:
+   - Start **Apache** and **MySQL** from the XAMPP Control Panel.
+
+2. Open **phpMyAdmin**:
+   - In your browser, go to: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
+
+3. Create a new database:
+   - Click on **Databases** in the top menu.
+   - Enter `tagmate` (or any name you want) as the database name.
+   - Choose **utf8_general_ci** as collation.
+   - Click **Create**.
+
+4. Import the SQL file:
+   - Select the newly created database from the left sidebar.
+   - Click on the **Import** tab.
+   - Click **Choose File** and select `tagmate.sql` from your project folder.
+   - Leave all other settings as default.
+   - Click **Go**.
+
+5. Done!  
+   - Your tables and data from `tagmate.sql` will now be available in the `tagmate` database.
+   - You can verify by expanding the database in phpMyAdmin.
