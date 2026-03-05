@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TagMate - About</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* =====================
+   ROOT
+===================== */
+:root {
+  --primary: #ff6b35;
+  --secondary: #f7b801;
+  --success: #06d6a0;
+  --dark: #1a1a2e;
+  --light: #ffffff;
+  --text-light: rgba(255,255,255,0.7);
+}
+
+/* =====================
+   RESET
+===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* =====================
+   BODY
+===================== */
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #222244, #0f0f1a);
+  color: var(--light);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Glow */
+body::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,107,53,0.1), transparent);
+  border-radius: 50%;
+  top: -250px;
+  right: -250px;
+  animation: float 25s infinite;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(247,184,1,0.08), transparent);
+  border-radius: 50%;
+  bottom: -200px;
+  left: -200px;
+  animation: float 20s infinite reverse;
+}
+
+@keyframes float {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(40px,40px); }
+}
+
+/* =====================
+   NAVBAR
+===================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(26,26,46,0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(255,107,53,0.2);
+  z-index: 1000;
+}
+
+.navbar h1 {
+  font-size: 1.4rem;
+  color: var(--secondary);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255,107,53,0.6);
+}
+
+/* =====================
+   CONTAINER
+===================== */
+.container {
+  max-width: 1000px;
+  margin: 120px auto 0;
+  padding: 0 20px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.container h2 {
+  text-align: center;
+  color: var(--secondary);
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.container p {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* =====================
+   CARDS
+===================== */
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.user-type-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+  padding: 40px 30px;
+  border-radius: 24px;
+  min-height: 260px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(255,107,53,0.2);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card Glow */
+.user-type-card::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(255,107,53,0.15), transparent);
+  top: 0;
+  left: -100%;
+  transition: 0.6s;
+}
+
+.user-type-card:hover::before {
+  left: 100%;
+}
+
+.user-type-card i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: var(--secondary);
+}
+
+.user-type-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.user-type-card p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.user-type-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+}
+
+/* =====================
+   FOOTER
+===================== */
+.footer {
+  width: 100%;
+  padding: 25px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  background: transparent;
+  border-top: 1px solid rgba(255,107,53,0.15);
+  position: relative;
+  z-index: 2;
+}
+
+/* =====================
+   MOBILE
+===================== */
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .container h2 {
+    font-size: 1.6rem;
+  }
+
+  .user-type-card {
+    padding: 30px 20px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h1><i class="fas fa-suitcase"></i> TagMate</h1>
+    <a href="selection.html" class="btn-primary">Go to Selection</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <h2>About TagMate</h2>
+
+    <p>
+      TagMate is a blockchain-based baggage tracking system designed to provide
+      real-time luggage tracking for passengers and airport staff. It ensures
+      transparency, security, and efficiency using NFC-based smart tags and
+      immutable blockchain records.
+    </p>
+
+    <div class="about-cards">
+
+      <div class="user-type-card" onclick="location.href='passengerLogin.html'">
+        <i class="fas fa-user"></i>
+        <h3>Passenger</h3>
+        <p>
+          Track your baggage in real-time, receive updates, and view your bag’s
+          journey from check-in to arrival.
+        </p>
+      </div>
+
+      <div class="user-type-card" onclick="location.href='staffLogin.html'">
+        <i class="fas fa-user-tie"></i>
+        <h3>Staff</h3>
+        <p>
+          Scan NFC tags, update baggage status, and manage baggage movement securely.
+        </p>
+      </div>
+
+      <div class="user-type-card">
+        <i class="fas fa-cogs"></i>
+        <h3>Features</h3>
+        <p>
+          Real-time tracking, immutable blockchain proof, NFC integration, and
+          separate dashboards for staff and passengers.
+        </p>
+      </div>
+
+    </div>
+
+    <p>
+      TagMate enhances the travel experience by ensuring baggage safety and
+      transparency throughout the airport journey.
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2025 TagMate. All Rights Reserved.
+  </footer>
+
+</body>
+</html>

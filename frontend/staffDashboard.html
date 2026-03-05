@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Staff Dashboard - TagMate</title>
+
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+
+body{
+  background:#0f0f1a;
+  color:white;
+  font-family:Poppins,sans-serif;
+  margin:0;
+}
+
+/* NAVBAR */
+.navbar{
+  background:#1a1a2e;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{ color:#f7b801;font-size:22px; }
+
+.btn-logout{
+  color:white;
+  text-decoration:none;
+  background:#ff6b35;
+  padding:8px 14px;
+  border-radius:6px;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  margin:30px 0;
+}
+
+/* CARD */
+.tab-card{
+  width:85%;
+  margin:auto;
+  background:#1a1a2e;
+  padding:25px;
+  border-radius:15px;
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  gap:10px;
+}
+
+.tab-btn{
+  flex:1;
+  padding:12px;
+  border:none;
+  background:#333;
+  color:white;
+  cursor:pointer;
+  border-radius:8px;
+}
+
+.tab-btn.active{
+  background:#ff6b35;
+}
+
+/* CONTENT */
+.tab-content{ display:none; }
+.tab-content.active{ display:block; }
+
+/* FORM */
+input,select{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  background:#111;
+  color:white;
+  border:1px solid #555;
+  border-radius:6px;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+.btn{
+  background:#ff6b35;
+  border:none;
+  padding:12px;
+  width:100%;
+  margin-top:15px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid #444;
+  text-align:center;
+}
+
+th{ background:#333; }
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">🏷️ TagMate</div>
+  <a href="selection.html" class="btn-logout">Logout</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Never Lose Your Baggage</h1>
+  <p>Staff Control Panel</p>
+</div>
+
+<!-- CARD -->
+<div class="tab-card">
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="register">Register</button>
+  <button class="tab-btn" data-tab="update">Update</button>
+  <button class="tab-btn" data-tab="track">Track</button>
+</div>
+
+<!-- REGISTER -->
+<div class="tab-content active" id="register">
+
+<h2>Register Baggage</h2>
+
+<div style="background:#ff6b35;padding:15px;border-radius:10px;text-align:center;cursor:pointer"
+ onclick="openQRScanner()">
+
+<i class="fas fa-wifi"></i> Scan NFC / QR
+
+</div>
+
+<form id="baggageForm">
+
+<input id="ticketId" placeholder="Ticket ID" required>
+
+<div class="row">
+
+<select id="fromAirport" required>
+<option value="">From</option>
+<option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+</select>
+
+<select id="toAirport" required>
+<option value="">To</option>
+<option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+</select>
+
+</div>
+
+<select id="baggageType">
+<option>Checked</option>
+<option>Cabin</option>
+</select>
+
+<input type="number" id="baggageWeight" placeholder="Weight (kg)" required>
+
+<button type="button" class="btn" onclick="registerBaggage()">
+Register
+</button>
+
+</form>
+
+</div>
+
+
+<!-- UPDATE -->
+<div class="tab-content" id="update">
+
+<h2>Update Baggage</h2>
+
+<select id="updateBagSelect"></select>
+
+<select id="updateStatus">
+<option>Registered</option>
+<option>Checked-in</option>
+<option>In-Transit</option>
+<option>Delivered</option>
+</select>
+
+<input id="updateLocation" placeholder="Current Location">
+
+<button class="btn" onclick="updateBaggage()">Update</button>
+
+</div>
+
+
+<!-- TRACK -->
+<div class="tab-content" id="track">
+
+<h2>Track Baggage</h2>
+
+<div id="staffBagTable"></div>
+
+</div>
+
+</div>
+
+
+<!-- SCRIPT -->
+<script>
+
+/* ===========================
+   TAB SYSTEM
+=========================== */
+
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+
+btn.onclick=()=>{
+
+document.querySelectorAll(".tab-btn")
+.forEach(b=>b.classList.remove("active"));
+
+document.querySelectorAll(".tab-content")
+.forEach(c=>c.classList.remove("active"));
+
+btn.classList.add("active");
+
+document.getElementById(btn.dataset.tab)
+.classList.add("active");
+
+};
+
+});
+
+
+/* ===========================
+   QR
+=========================== */
+
+function openQRScanner(){
+  window.location.href="QR_Scanning.html";
+}
+
+
+/* ===========================
+   REGISTER BAG
+=========================== */
+
+async function registerBaggage(){
+
+const ticketId = ticketIdEl().value.trim();
+const from = fromAirportEl().value;
+const to = toAirportEl().value;
+const type = baggageTypeEl().value;
+const weight = baggageWeightEl().value;
+
+if(!ticketId||!from||!to||!type||!weight){
+  alert("Fill all fields");
+  return;
+}
+
+try{
+
+const res = await fetch("http://localhost:5000/api/bag/register",{
+
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+
+body:JSON.stringify({
+ticketId,from,to,type,weight
+})
+
+});
+
+const data = await res.json();
+
+if(res.ok){
+
+alert("Registered: "+data.bagId);
+
+document.getElementById("baggageForm").reset();
+
+fetchBags();
+
+}else{
+
+alert(data.message);
+
+}
+
+}catch(err){
+
+alert("Server error");
+
+}
+
+}
+
+
+/* ===========================
+   FETCH BAGS
+=========================== */
+
+async function fetchBags(){
+
+const res = await fetch("http://localhost:5000/api/bag/all");
+
+const data = await res.json();
+
+renderTable(data);
+
+fillDropdown(data);
+
+}
+
+
+/* ===========================
+   TABLE
+=========================== */
+
+function renderTable(bags){
+
+let html=`<table>
+<tr>
+<th>Bag ID</th>
+<th>Status</th>
+<th>Location</th>
+</tr>`;
+
+bags.forEach(b=>{
+
+html+=`
+<tr>
+<td>${b.bagId}</td>
+<td>${b.status}</td>
+<td>${b.location||"-"}</td>
+</tr>`;
+
+});
+
+html+=`</table>`;
+
+document.getElementById("staffBagTable").innerHTML=html;
+
+}
+
+
+/* ===========================
+   DROPDOWN
+=========================== */
+
+function fillDropdown(bags){
+
+const sel=document.getElementById("updateBagSelect");
+
+sel.innerHTML="";
+
+bags.forEach(b=>{
+
+sel.innerHTML+=`
+<option value="${b.bagId}">
+${b.bagId}
+</option>`;
+
+});
+
+}
+
+
+/* ===========================
+   UPDATE BAG
+=========================== */
+
+async function updateBaggage(){
+
+const bagId = updateBagSelect.value;
+const status = updateStatus.value;
+const location = updateLocation.value;
+
+if(!bagId){
+  alert("Select bag");
+  return;
+}
+
+const res = await fetch("http://localhost:5000/api/bag/update",{
+
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+
+body:JSON.stringify({ bagId,status,location })
+
+});
+
+const data = await res.json();
+
+alert(data.message);
+
+fetchBags();
+
+}
+
+
+/* ===========================
+   HELPERS
+=========================== */
+
+const ticketIdEl=()=>document.getElementById("ticketId");
+const fromAirportEl=()=>document.getElementById("fromAirport");
+const toAirportEl=()=>document.getElementById("toAirport");
+const baggageTypeEl=()=>document.getElementById("baggageType");
+const baggageWeightEl=()=>document.getElementById("baggageWeight");
+
+
+/* ===========================
+   INIT
+=========================== */
+
+fetchBags();
+
+</script>
+
+</body>
+</html>

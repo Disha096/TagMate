@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TagMate – Select Role</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="role-page">
+
+    <div class="role-card">
+        <h1>TagMate</h1>
+        <p class="subtitle">Choose your role to continue</p>
+
+        <button class="role-btn passenger-btn" onclick="goPassenger()">
+            <span>👤</span> Passenger
+        </button>
+
+        <button class="role-btn staff-btn" onclick="goStaff()">
+            <span>🧑‍✈️</span> Staff
+        </button>
+    </div>
+
+    <script>const mongoose = require("mongoose");
+
+const counterSchema = new mongoose.Schema({
+  name: { type: String, unique: true },
+  value: { type: Number, default: 0 }
+});
+
+module.exports = mongoose.model("Counter", counterSchema);
+        function goPassenger() {
+            window.location.href = "passengerLogin.html";
+        }
+
+        function goStaff() {
+            window.location.href = "staffLogin.html";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Passenger Dashboard – TagMate</title>
+
+<style>
+body {
+  background:#0f0f1a;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial;
+  color:white;
+}
+
+.box {
+  background:#1a1a2e;
+  padding:40px;
+  border-radius:12px;
+  width:320px;
+  text-align:center;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.book { background:#ff6b35; color:white; }
+.track { background:#06d6a0; color:black; }
+.logout { background:#ff4d4d; color:white; }
+
+button:hover { opacity:0.9; }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2 id="welcome"></h2>
+
+  <button class="book" onclick="goBook()">✈️ Book Ticket</button>
+
+  <button class="track" onclick="goTrack()">📦 Track Bag</button>
+
+  <button class="logout" onclick="logout()">🚪 Logout</button>
+
+</div>
+
+<script>
+
+// LOGIN CHECK
+const name = localStorage.getItem("passengerName");
+
+if (!name) {
+  window.location.href = "passengerLogin.html";
+}
+
+// Show name
+document.getElementById("welcome").innerText =
+  "Welcome, " + name + " 👋";
+
+// Navigation
+function goBook() {
+  window.location.href = "Flight_Booking.html";
+}
+
+function goTrack() {
+  window.location.href = "passengerDashboard.html";
+}
+
+function logout() {
+  localStorage.clear();
+  window.location.href = "passengerLogin.html";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Passenger Login – TagMate</title>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #222244, #0f0f1a);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+}
+
+.box {
+  background: #1a1a2e;
+  padding: 40px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  color: white;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg,#ff6b35,#f7b801);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.9; }
+
+#msg { margin-top: 10px; }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2>Passenger Login</h2>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+
+  <p id="msg"></p>
+
+</div>
+
+<script>
+
+async function login() {
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  if (!email || !password) {
+    msg.innerText = "❌ Email and password required";
+    msg.style.color = "red";
+    return;
+  }
+
+  try {
+
+    const res = await fetch("http://localhost:5000/api/passenger/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+
+      msg.style.color = "green";
+      msg.innerText = "✅ Login successful!";
+
+      localStorage.setItem("passengerName", data.name);
+      localStorage.setItem("passengerId", data.passengerId);
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 800);
+
+    } else {
+      msg.style.color = "red";
+      msg.innerText = data.message || "Login failed";
+    }
+
+  } catch (err) {
+    msg.style.color = "red";
+    msg.innerText = "⚠️ Server error";
+  }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Staff Login</title>
+
+  <!-- Link CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="staff-page">
+
+<div class="staff-login-container">
+
+  <div class="staff-login-box">
+
+    <h1>Staff Login</h1>
+
+    <form onsubmit="loginStaff(); return false;">
+
+      <input type="email" id="email" placeholder="Email" required>
+
+      <input type="password" id="password" placeholder="Password" required>
+
+      <button type="submit">Login</button>
+      <h3 id="welcomeMsg"></h3>
+<button onclick="logout()" style="background:red; margin-bottom:10px;">
+  Logout
+</button>
+
+    </form>
+
+    <p id="msg"></p>
+
+  </div>
+
+</div>
+
+<script>
+async function loginStaff() {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+
+    const res = await fetch("http://localhost:5000/api/staff/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+
+      // ✅ Save staff data in localStorage
+      localStorage.setItem("staff", JSON.stringify(data.staff));
+
+      alert("Login successful");
+
+      window.location.href = "staffDashboard.html";
+
+    } else {
+
+      document.getElementById("msg").innerText = data.message;
+
+    }
+
+  } catch (err) {
+
+    document.getElementById("msg").innerText = "Server error";
+
+  }
+}
+</script>
+
+</body>
+</html>

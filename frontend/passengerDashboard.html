@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Passenger Dashboard – TagMate</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .scan-btn {
+      background: #06d6a0;
+      color: #000;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .scan-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="staff-login-container">
+  <div class="staff-login-box">
+
+    <h1>Track Your Baggage</h1>
+
+    <!-- Scan Button -->
+    <button class="btn scan-btn" onclick="openScanner()">
+      📷 Scan Ticket QR
+    </button>
+
+    <!-- Ticket ID -->
+    <input type="text" id="ticketId" placeholder="Enter Ticket No" required>
+
+    <button class="btn" onclick="getHistory()">View History</button>
+
+    <p id="msg"></p>
+
+    <table id="historyTable" style="width:100%; margin-top:15px; display:none;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+  </div>
+</div>
+
+<script>
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+const name = localStorage.getItem("passengerName");
+
+if (!name) {
+  window.location.href = "passengerLogin.html";
+}
+
+
+/* =========================
+   AUTO LOAD TICKET
+========================= */
+
+const savedTicket = localStorage.getItem("ticketId");
+
+if (savedTicket) {
+  document.getElementById("ticketId").value = savedTicket;
+}
+
+
+/* =========================
+   OPEN SCANNER
+========================= */
+
+function openScanner() {
+  window.location.href = "QR_Scanning.html"; // your scanner file
+}
+
+
+/* =========================
+   FETCH BAGGAGE HISTORY
+========================= */
+
+async function getHistory() {
+
+  const ticketId = document.getElementById("ticketId").value.trim();
+  const msg = document.getElementById("msg");
+  const table = document.getElementById("historyTable");
+  const tbody = table.querySelector("tbody");
+
+  msg.innerText = "";
+  tbody.innerHTML = "";
+  table.style.display = "none";
+
+  if (!ticketId) {
+    msg.innerText = "❌ Please enter Ticket ID";
+    msg.style.color = "red";
+    return;
+  }
+
+  try {
+
+    const res = await fetch(`http://localhost:5000/api/baggage/${ticketId}`);
+    const data = await res.json();
+
+    if (!res.ok || data.length === 0) {
+      msg.innerText = "No history found for this Ticket ID";
+      msg.style.color = "red";
+      return;
+    }
+
+    data.forEach((item, index) => {
+
+      const row = document.createElement("tr");
+
+      const time = new Date(Number(item.timestamp) * 1000).toLocaleString();
+
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${item.status}</td>
+        <td>${time}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+
+    table.style.display = "table";
+
+  } catch (error) {
+
+    msg.innerText = "⚠️ Server error";
+    msg.style.color = "red";
+
+  }
+}
+</script>
+
+</body>
+</html>

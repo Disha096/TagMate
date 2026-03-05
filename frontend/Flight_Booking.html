@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Ticket Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #ff6b35;
+            --accent: #f7b801;
+            --dark: #1a1a2e;
+            --light: #ffffff;
+            --success: #06d6a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #222244, #0f0f1a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08), transparent);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(247, 184, 1, 0.06), transparent);
+            border-radius: 50%;
+            bottom: -250px;
+            left: -250px;
+            animation: float 20s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(30px, 30px);
+            }
+
+            50% {
+                transform: translate(0, 60px);
+            }
+
+            75% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        /* Main Card */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 35px 30px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 107, 53, 0.1) inset;
+            border: 1px solid rgba(255, 107, 53, 0.15);
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header i {
+            font-size: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            display: block;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--accent);
+            letter-spacing: 1px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding-left: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 15px;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        /* Inputs */
+        input,
+        select {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255, 107, 53, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+        }
+
+        input:hover,
+        select:hover {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(247, 184, 1, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Name row */
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        /* Custom Dropdown */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            background-image:
+                linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+                linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+            background-position:
+                calc(100% - 18px) 50%,
+                calc(100% - 12px) 50%;
+            background-size: 6px 6px, 6px 6px;
+            background-repeat: no-repeat;
+        }
+
+        select option {
+            background: var(--dark);
+            color: white;
+        }
+
+        select option[value=""] {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Date & Time inputs */
+        input[type="date"],
+        input[type="time"] {
+            cursor: pointer;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) sepia(1) saturate(5) hue-rotate(20deg);
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-text,
+        input[type="date"]::-webkit-datetime-edit-month-field,
+        input[type="date"]::-webkit-datetime-edit-day-field,
+        input[type="date"]::-webkit-datetime-edit-year-field,
+        input[type="time"]::-webkit-datetime-edit-hour-field,
+        input[type="time"]::-webkit-datetime-edit-minute-field {
+            color: #ffffff;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #ff6b35, #f7b801);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.8px;
+            margin-top: 12px;
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 45px rgba(255, 107, 53, 0.5);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        /* Error */
+        .error {
+            color: #ff4d4d;
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 77, 77, 0.15);
+            border-radius: 12px;
+            border-left: 4px solid #ff4d4d;
+            font-weight: 500;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-8px);
+            }
+
+            75% {
+                transform: translateX(8px);
+            }
+        }
+
+        /* Ticket */
+        .ticket {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 20px;
+            background: linear-gradient(160deg,
+                    rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.04));
+            border: 2px dashed var(--primary);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Decorative corners */
+        .ticket::before,
+        .ticket::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(247, 184, 1, 0.3);
+        }
+
+        .ticket::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 20px 0 0 0;
+        }
+
+        .ticket::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 20px 0;
+        }
+
+        .ticket-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ticket h3 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--success);
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .ticket h3 i {
+            font-size: 24px;
+        }
+
+        .ticket-section {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .ticket p {
+            margin: 10px 0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .ticket p b {
+            font-weight: 600;
+            color: rgba(247, 184, 1, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .ticket p b i {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .ticket p span {
+            font-weight: 600;
+            background: rgba(255, 107, 53, 0.25);
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 107, 53, 0.5),
+                    transparent);
+            margin: 18px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #0f0f1a;
+            border: 2px solid rgba(255, 107, 53, 0.4);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .divider::before {
+            left: -36px;
+        }
+
+        .divider::after {
+            right: -36px;
+        }
+
+        #qrcode {
+            margin: 18px auto;
+            text-align: center;
+            padding: 12px;
+            border-radius: 14px;
+            background: transparent;
+            display: inline-block;
+            width: fit-content;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        #qrcode canvas {
+            display: block;
+        }
+
+        .ticket select {
+            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 107, 53, 0.4);
+        }
+
+        .ticket select:focus {
+            border-color: var(--accent);
+        }
+
+        .ticket button {
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .container {
+                padding: 28px 22px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .name-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header i {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-plane-departure"></i>
+            <h2>Flight Ticket Booking</h2>
+            <p class="subtitle">Fill in your details to generate your ticket</p>
+        </div>
+
+        <div class="name-row">
+            <div class="input-group">
+                <label for="fname">First Name</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fname" placeholder="John">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="lname">Last Name</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="lname" placeholder="Doe">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="age">Age</label>
+            <div class="input-wrapper">
+                <i class="fas fa-birthday-cake"></i>
+                <input type="number" id="age" placeholder="25" min="1" max="120">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrapper">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="phone" placeholder="+91 98765 43210">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="john.doe@example.com">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="start">Departure City</label>
+            <div class="input-wrapper">
+                <i class="fas fa-plane-departure"></i>
+                <select id="start">
+                    <option value="">Select City</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="destination">Arrival City</label>
+            <div class="input-wrapper">
+                <i class="fas fa-plane-arrival"></i>
+                <select id="destination">
+                    <option value="">Select City</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="flightDate">Flight Date</label>
+            <div class="input-wrapper">
+                <i class="fas fa-calendar"></i>
+                <input type="date" id="flightDate">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="flightTime">Flight Time</label>
+            <div class="input-wrapper">
+                <i class="fas fa-clock"></i>
+                <input type="time" id="flightTime">
+            </div>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <button onclick="generateTicket()">
+            <i class="fas fa-ticket-alt"></i>Generate Ticket
+        </button>
+
+        <div class="ticket" id="ticket">
+            <div class="ticket-content">
+                <h3>
+                    <i class="fas fa-plane"></i>
+                    Flight Ticket
+                </h3>
+
+                <div class="ticket-section">
+                    <p><b><i class="fas fa-user"></i> Name:</b> <span id="tname"></span></p>
+                    <p><b><i class="fas fa-birthday-cake"></i> Age:</b> <span id="tage"></span></p>
+                    <p><b><i class="fas fa-phone"></i> Phone:</b> <span id="tphone"></span></p>
+                    <p><b><i class="fas fa-envelope"></i> Email:</b> <span id="temail"></span></p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="ticket-section">
+                    <p><b><i class="fas fa-map-marker-alt"></i> From:</b> <span id="tstart"></span></p>
+                    <p><b><i class="fas fa-map-marker-alt"></i> To:</b> <span id="tdest"></span></p>
+                    <p><b><i class="fas fa-calendar-day"></i> Date:</b> <span id="tdate"></span></p>
+                    <p><b><i class="fas fa-clock"></i> Time:</b> <span id="ttime"></span></p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="ticket-section">
+                    <p><b><i class="fas fa-chair"></i> Seat:</b> <span id="tseat"></span></p>
+                    <p><b><i class="fas fa-door-open"></i> Gate:</b> <span id="tgate"></span></p>
+                    <p><b><i class="fas fa-hourglass-half"></i> Boarding Time:</b> <span id="tboarding"></span></p>
+                    <p><b><i class="fas fa-barcode"></i> Ticket ID:</b> <span id="tid"></span></p>
+                </div>
+
+                <div id="qrcode"></div>
+
+                <select id="downloadType">
+                    <option value="">Select Download Format</option>
+                    <option value="png">PNG</option>
+                    <option value="pdf">PDF</option>
+                </select>
+
+                <button onclick="downloadTicket()">
+                    <i class="fas fa-download"></i>Download Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // Initialize Flatpickr
+        document.addEventListener("DOMContentLoaded", () => {
+            flatpickr("#flightDate", {
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                allowInput: false,
+                clickOpens: true,
+                disableMobile: true
+            });
+
+            flatpickr("#flightTime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                allowInput: false,
+                clickOpens: true,
+                disableMobile: true
+            });
+        });
+
+        // Calculate boarding time (45 mins before flight)
+        function calculateBoardingTime(timeStr) {
+            const date = new Date("1970-01-01 " + timeStr);
+            date.setMinutes(date.getMinutes() - 45);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Generate ticket function
+        function generateTicket() {
+            const fname = document.getElementById("fname").value.trim();
+            const lname = document.getElementById("lname").value.trim();
+            const age = document.getElementById("age").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const start = document.getElementById("start").value;
+            const destination = document.getElementById("destination").value;
+            const flightDate = document.getElementById("flightDate").value;
+            const flightTime = document.getElementById("flightTime").value;
+            const error = document.getElementById("error");
+
+            // Validation
+            if (!fname || !lname || !age || !phone || !email || !start || !destination || !flightDate || !flightTime) {
+                error.innerText = "Please fill all fields!";
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+                return;
+            }
+
+            // Age validation
+            if (age < 1 || age > 120) {
+                error.innerText = "Please enter a valid age!";
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                error.innerText = "Please enter a valid email address!";
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+                return;
+            }
+
+            if (start === destination) {
+                error.innerText = "Start and destination cannot be same!";
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+                return;
+            }
+
+            error.classList.remove('show');
+
+            // Generate ticket ID
+            const ticketId =
+                lname.substring(0, 2).toUpperCase() +
+                fname.substring(0, 2).toUpperCase() +
+                start[0] + destination[0] +
+                Math.floor(1000 + Math.random() * 9000);
+
+            // Generate seat and gate
+            const seat = Math.floor(Math.random() * 30 + 1) +
+                ["A", "B", "C", "D", "E", "F"][Math.floor(Math.random() * 6)];
+            const gate = ["A", "B", "C"][Math.floor(Math.random() * 3)] +
+                Math.floor(Math.random() * 10 + 1);
+
+            // Calculate boarding time
+            const boardingTime = calculateBoardingTime(flightTime);
+
+            // Set ticket values
+            document.getElementById("tname").innerText = fname + " " + lname;
+            document.getElementById("tage").innerText = age + " years";
+            document.getElementById("tphone").innerText = phone;
+            document.getElementById("temail").innerText = email;
+            document.getElementById("tstart").innerText = start;
+            document.getElementById("tdest").innerText = destination;
+            document.getElementById("tdate").innerText = flightDate;
+            document.getElementById("ttime").innerText = flightTime;
+            document.getElementById("tseat").innerText = seat;
+            document.getElementById("tgate").innerText = gate;
+            document.getElementById("tboarding").innerText = boardingTime;
+            document.getElementById("tid").innerText = ticketId;
+
+            // Generate QR Code
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: ticketId,
+                width: 120,
+                height: 120,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+
+            // Show ticket
+            document.getElementById("ticket").style.display = "block";
+            
+// ==============================
+// SAVE BOOKING TO BLOCKCHAIN
+// ==============================
+
+const passengerId = ticketId;   // Using ticket ID as unique ID
+
+const locationData = start + " → " + destination;
+const timeData = flightDate + " " + flightTime;
+
+fetch("http://localhost:5000/api/passenger/history", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        passengerId: passengerId,
+        name: fname + " " + lname,
+        location: locationData + " | " + timeData,
+        bags: 0
+    })
+})
+.then(res => res.json())
+.then(data => {
+
+    if (data.txHash) {
+        console.log("Blockchain Saved:", data.txHash);
+        alert("Booking Saved on Blockchain!");
+    } else {
+        console.error("Blockchain Error:", data);
+        alert("Blockchain Save Failed!");
+    }
+
+})
+.catch(err => {
+    console.error("Blockchain Connection Error:", err);
+    alert("Blockchain Connection Failed!");
+});
+
+            // Scroll to ticket smoothly
+            setTimeout(() => {
+                document.getElementById("ticket").scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // Download ticket function
+        function downloadTicket() {
+            const type = document.getElementById("downloadType").value;
+            const ticket = document.getElementById("ticket");
+
+            if (!type) {
+                alert("Please select a download format!");
+                return;
+            }
+
+            const options = {
+                backgroundColor: "#1a1a2e",
+                scale: 2
+            };
+
+            if (type === "png") {
+                html2canvas(ticket, options).then(canvas => {
+                    const link = document.createElement("a");
+                    link.download = "flight-ticket.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                });
+            }
+
+            if (type === "pdf") {
+                html2canvas(ticket, options).then(canvas => {
+                    const imgData = canvas.toDataURL("image/png");
+                    const pdf = new window.jspdf.jsPDF("p", "mm", "a4");
+
+                    const width = 190;
+                    const height = (canvas.height * width) / canvas.width;
+
+                    pdf.addImage(imgData, "PNG", 10, 10, width, height);
+                    pdf.save("flight-ticket.pdf");
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

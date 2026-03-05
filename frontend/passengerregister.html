@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TagMate | Passenger Registration</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+/* =====================
+   ROOT COLORS
+===================== */
+:root {
+    --primary: #ff6b35;
+    --secondary: #f7b801;
+    --success: #06d6a0;
+    --warning: #f59e0b;
+    --dark: #1a1a2e;
+    --light: #ffffff;
+    --text-light: rgba(255,255,255,0.7);
+}
+
+/* =====================
+   RESET
+===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* =====================
+   BODY
+===================== */
+body.register-page {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #222244, #0f0f1a);
+    color: var(--light);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Glow */
+body.register-page::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,107,53,0.08), transparent);
+    border-radius: 50%;
+    top: -300px;
+    right: -300px;
+}
+
+body.register-page::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(247,184,1,0.06), transparent);
+    border-radius: 50%;
+    bottom: -250px;
+    left: -250px;
+}
+
+/* =====================
+   REGISTER CONTAINER
+===================== */
+.register-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* =====================
+   REGISTER BOX
+===================== */
+.register-box {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(26,26,46,0.92);
+    backdrop-filter: blur(18px);
+    padding: 3rem 2.8rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255,107,53,0.25);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+    text-align: center;
+}
+
+/* =====================
+   TITLE
+===================== */
+.register-box h1 {
+    color: var(--secondary);
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+/* =====================
+   FORM
+===================== */
+.register-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.register-box input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(255,107,53,0.3);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 14px;
+}
+
+.register-box input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+/* =====================
+   BUTTON
+===================== */
+.register-box button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* =====================
+   LINK
+===================== */
+.back-link {
+    display: block;
+    margin-top: 15px;
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+</style>
+</head>
+
+<body class="register-page">
+
+<div class="register-container">
+
+    <div class="register-box">
+
+        <h1>Passenger Registration</h1>
+        <p class="subtitle">Create your TagMate account</p>
+
+        <!-- FIXED FORM -->
+        <form onsubmit="register(event)">
+
+            <input type="text" id="name" placeholder="Full Name" required>
+
+            <input type="email" id="email" placeholder="Email Address" required>
+
+            <input type="password" id="password" placeholder="Password" required>
+
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+            <button type="submit">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+
+        </form>
+
+        <p id="msg"></p>
+
+        <a href="passengerLogin.html" class="back-link">
+            Already have an account? Login
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+async function register(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirm = document.getElementById("confirmPassword").value;
+  const msg = document.getElementById("msg");
+
+  if (!name || !email || !password || !confirm) {
+    msg.innerText = "❌ All fields are required";
+    msg.style.color = "red";
+    return;
+  }
+
+  if (password !== confirm) {
+    msg.innerText = "❌ Passwords do not match";
+    msg.style.color = "red";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/passenger/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+
+      // ✅ SEND confirmPassword ALSO
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        confirmPassword: confirm
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      msg.innerText = "✅ Registered successfully!";
+      msg.style.color = "green";
+
+      setTimeout(() => {
+        window.location.href = "passengerLogin.html";
+      }, 1500);
+
+    } else {
+      msg.innerText = data.message || "Registration failed";
+      msg.style.color = "red";
+    }
+
+  } catch (err) {
+    console.error(err);
+
+    msg.innerText = "⚠️ Server error";
+    msg.style.color = "red";
+  }
+}
+</script>
+</body>
+</html>
