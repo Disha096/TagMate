@@ -161,5 +161,29 @@ router.get("/ticket/:ticketId", async (req, res) => {
     });
   }
 });
+/* =========================
+   GET BAGGAGE HISTORY
+========================= */
+
+const { passengerContract } = require("../utils/blockchain");
+
+router.get("/:ticketId", async (req, res) => {
+  try {
+
+    const ticketId = req.params.ticketId;
+
+    console.log("Fetching history for:", ticketId);
+
+    const history = await passengerContract.getPassengerHistory(ticketId);
+
+    res.json(history);
+
+  } catch (error) {
+
+    console.log(error);
+    res.status(500).json({ error: "Server error" });
+
+  }
+});
 
 module.exports = router;
